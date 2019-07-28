@@ -1,10 +1,12 @@
 {
   "extends": ["airbnb", "plugin:import/errors", "plugin:jsx-a11y/recommended", "prettier", "prettier/react"],
-  "plugins": ["import", "jsx-a11y", "react"],
+  "plugins": ["import", "jsx-a11y", "react", "react-hooks"],
   "rules": {
+    "no-console": 1,
     "react/prop-types": 0,
     "react/jsx-filename-extension": 0,
-    "no-console": 1
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 1
   },
   "parser": "babel-eslint",
   "parserOptions": {
