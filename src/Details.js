@@ -1,12 +1,16 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
+import { navigate } from "@reach/router";
+
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
+import Modal from "./Modal";
 
 class Details extends React.Component {
   state = {
-    loading: true
+    loading: true,
+    showModal: false
   };
 
   componentDidMount() {
@@ -14,6 +18,7 @@ class Details extends React.Component {
 
     pet.animal(id).then(({ animal }) => {
       this.setState({
+        url: animal.url,
         name: animal.name,
         animal: animal.type,
         location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
@@ -25,8 +30,18 @@ class Details extends React.Component {
     });
   }
 
+  toggleModal = () =>
+    this.setState(state => {
+      return { showModal: !state.showModal };
+    });
+
+  adopt = () => {
+    const { url } = this.state;
+    navigate(url);
+  };
+
   render() {
-    const { loading, animal, breed, location, description, media, name } = this.state;
+    const { loading, animal, breed, location, description, media, name, showModal } = this.state;
 
     if (loading) {
       return <h1>Loading ...</h1>;
@@ -41,13 +56,28 @@ class Details extends React.Component {
 
           <ThemeContext.Consumer>
             {([theme]) => (
-              <button type="button" style={{ backgroundColor: theme }}>
+              <button type="button" style={{ backgroundColor: theme }} onClick={this.toggleModal}>
                 Adopt {name}
               </button>
             )}
           </ThemeContext.Consumer>
 
           <p>{description}</p>
+          {showModal ? (
+            <Modal>
+              <div>
+                <h1>Would you like to adopt {name} ?</h1>
+                <div className="buttons">
+                  <button type="button" onClick={this.adopt}>
+                    Yes
+                  </button>
+                  <button type="button" onClick={this.toggleModal}>
+                    No, I&apos;m a monster
+                  </button>
+                </div>
+              </div>
+            </Modal>
+          ) : null}
         </div>
       </div>
     );
