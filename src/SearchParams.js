@@ -7,6 +7,7 @@ import Results from "./Results";
 import ThemeContext from "./ThemeContext";
 
 function SearchParams() {
+  // eslint-disable-next-line
   const [location, setLocation] = useState("Seattle, WA");
   const [breeds, setBreeds] = useState([]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
@@ -54,7 +55,8 @@ function SearchParams() {
             id="location"
             value={location}
             placeholder="Location"
-            onChange={e => setLocation(e.target.value)}
+            // onChange={e => setLocation(e.target.value)}
+            readOnly
           />
         </label>
         <AnimalDropdown />
